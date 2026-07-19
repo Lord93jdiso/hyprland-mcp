@@ -1,4 +1,4 @@
-# Hyprland Beauty MCP Server
+# Hyprland MCP Server
 
 An MCP (Model Context Protocol) server that gives AI agents powerful tools to create, edit, and design beautiful **Hyprland**, **Waybar**, and related Wayland desktop configurations.
 
