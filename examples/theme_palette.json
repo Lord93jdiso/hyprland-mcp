@@ -1,0 +1,37 @@
+{
+  "name": "example-beauty",
+  "base": "#1e1e2e",
+  "surface": "#313244",
+  "text": "#cdd6f4",
+  "accent": "#89b4fa",
+  "accent_secondary": "#cba6f7",
+  "error": "#f38ba8",
+  "success": "#a6e3a1",
+  "warning": "#fab387",
+  "hyprland_colors": {
+    "background": "#1e1e2e",
+    "surface": "#313244",
+    "text": "#cdd6f4",
+    "accent": "#89b4fa"
+  },
+  "waybar_colors": {
+    "background": "#1e1e2e",
+    "surface": "#313244",
+    "text": "#cdd6f4",
+    "accent": "#89b4fa",
+    "success": "#a6e3a1",
+    "warning": "#fab387",
+    "error": "#f38ba8"
+  },
+  "suggested_wallpapers": [
+    "Abstract dark gradient with purple/blue tones",
+    "Minimalist geometric dark background",
+    "Frosted glass / bokeh dark texture"
+  ],
+  "font_suggestions": [
+    "JetBrainsMono Nerd Font",
+    "FiraCode Nerd Font",
+    "Inter",
+    "Manrope"
+  ]
+}

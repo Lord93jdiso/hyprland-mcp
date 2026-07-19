@@ -1,0 +1,32 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install mcp
+      - name: Syntax check
+        run: python -c "import ast; ast.parse(open('mcp_server.py').read()); print('Syntax OK')"
+      - name: Import check
+        run: python -c "from mcp_server import create_hyprland_config, create_waybar_config, generate_theme_palette, get_config_reference, apply_config_template, get_full_beauty_guide; print('Imports OK')"
+      - name: Generate example configs
+        run: python3 -c "
+import sys; sys.path.insert(0, '.')
+from mcp_server import create_hyprland_config, create_waybar_config, generate_theme_palette
+h = create_hyprland_config()
+print('Config size:', len(h['content']))
+"
