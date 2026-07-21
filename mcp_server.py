@@ -63,7 +63,7 @@ def _parse_config_section(lines: list[str], section: str) -> dict:
 # ------------------------------------------------------------------
 
 @mcp.resource("knowledge://hyprland-wiki")
-def hyprland_wiki() -> str:
+def hyprland_wiki(**kwargs) -> str:
     return f"""Official Hyprland Wiki: {HYPRLAND_WIKI}
 Wiki sections: Configuring/Monitors, Configuring/Keywords, Configuring/Variables,
 Configuring/Window-Rules, Configuring/Layer-Rules, Configuring/Keyboard,
@@ -76,7 +76,7 @@ Dispatch docs: https://wiki.hypr.land/Configuring/Dispatchers"""
 # ------------------------------------------------------------------
 
 @mcp.prompt()
-def hyprland_assistant() -> str:
+def hyprland_assistant(**kwargs) -> str:
     return """You are a Hyprland assistant. Use the tools to query and control Hyprland.
 - Use hyprctl wrappers to get state, dispatch commands, change settings
 - Use config tools to read/edit hyprland.conf
@@ -89,7 +89,7 @@ def hyprland_assistant() -> str:
 # ------------------------------------------------------------------
 
 @mcp.tool()
-def hyprctl_raw(command: str) -> str:
+def hyprctl_raw(command: str, **kwargs) -> str:
     """Run any hyprctl command directly.
     Example: hyprctl_raw("monitors") or hyprctl_raw("-j monitors")
     """
@@ -97,61 +97,61 @@ def hyprctl_raw(command: str) -> str:
 
 
 @mcp.tool()
-def get_monitors() -> str:
+def get_monitors(**kwargs) -> str:
     """List all monitors with resolution, position, refresh rate, workspace."""
     return _run_hyprctl(["-j", "monitors"])
 
 
 @mcp.tool()
-def get_workspaces() -> str:
+def get_workspaces(**kwargs) -> str:
     """List all workspaces with window count, monitor, layout."""
     return _run_hyprctl(["-j", "workspaces"])
 
 
 @mcp.tool()
-def get_clients() -> str:
+def get_clients(**kwargs) -> str:
     """List all windows (clients) with class, title, workspace, position, size."""
     return _run_hyprctl(["-j", "clients"])
 
 
 @mcp.tool()
-def get_active_window() -> str:
+def get_active_window(**kwargs) -> str:
     """Get the currently focused window details."""
     return _run_hyprctl(["-j", "activewindow"])
 
 
 @mcp.tool()
-def get_devices() -> str:
+def get_devices(**kwargs) -> str:
     """List all input devices (mice, keyboards, tablets, touch)."""
     return _run_hyprctl(["-j", "devices"])
 
 
 @mcp.tool()
-def get_binds() -> str:
+def get_binds(**kwargs) -> str:
     """List all keybinds."""
     return _run_hyprctl(["-j", "binds"])
 
 
 @mcp.tool()
-def get_option(option: str) -> str:
+def get_option(option: str, **kwargs) -> str:
     """Get a specific config option value. Example: get_option("general:gaps_in")"""
     return _run_hyprctl(["-j", "getoption", option])
 
 
 @mcp.tool()
-def get_version() -> str:
+def get_version(**kwargs) -> str:
     """Get Hyprland version and build info."""
     return _run_hyprctl(["version"])
 
 
 @mcp.tool()
-def get_splash() -> str:
+def get_splash(**kwargs) -> str:
     """Get the current random splash message."""
     return _run_hyprctl(["splash"])
 
 
 @mcp.tool()
-def get_layers() -> str:
+def get_layers(**kwargs) -> str:
     """List all layers in the compositor."""
     return _run_hyprctl(["-j", "layers"])
 
@@ -161,7 +161,7 @@ def get_layers() -> str:
 # ------------------------------------------------------------------
 
 @mcp.tool()
-def dispatch(command: str) -> str:
+def dispatch(command: str, **kwargs) -> str:
     """Dispatch a Hyprland command. See dispatchers list below.
     Common dispatchers:
     workspace <name|id>        — switch to workspace
@@ -184,7 +184,7 @@ def dispatch(command: str) -> str:
 
 
 @mcp.tool()
-def set_keyword(keyword: str, value: str) -> str:
+def set_keyword(keyword: str, value: str, **kwargs) -> str:
     """Dynamically set a config keyword (temporary until restart).
     Example: set_keyword("general:gaps_in", "10")
              set_keyword("decoration:rounding", "0")
@@ -194,13 +194,13 @@ def set_keyword(keyword: str, value: str) -> str:
 
 
 @mcp.tool()
-def reload_config() -> str:
+def reload_config(**kwargs) -> str:
     """Reload hyprland.conf (applies changes without restart)."""
     return _run_hyprctl(["reload"])
 
 
 @mcp.tool()
-def notify(message: str, time_ms: int = 5000, icon: str = "") -> str:
+def notify(message: str, time_ms: int = 5000, icon: str = "", **kwargs) -> str:
     """Send a desktop notification via Hyprland.
     icon: Nerd Font icon or emoji
     """
@@ -208,7 +208,7 @@ def notify(message: str, time_ms: int = 5000, icon: str = "") -> str:
 
 
 @mcp.tool()
-def kill_window() -> str:
+def kill_window(**kwargs) -> str:
     """Enter kill mode (click a window to close it)."""
     return _run_hyprctl(["kill"])
 
@@ -218,7 +218,7 @@ def kill_window() -> str:
 # ------------------------------------------------------------------
 
 @mcp.tool()
-def read_config() -> str:
+def read_config(**kwargs) -> str:
     """Read the current hyprland.conf file content."""
     if not HYPRLAND_CONF.exists():
         return f"error: config not found at {HYPRLAND_CONF}"
@@ -226,7 +226,7 @@ def read_config() -> str:
 
 
 @mcp.tool()
-def get_config_section(section: str) -> str:
+def get_config_section(section: str, **kwargs) -> str:
     """Parse and return a specific section from hyprland.conf.
     Example: get_config_section("general")
              get_config_section("decoration")
@@ -242,7 +242,7 @@ def get_config_section(section: str) -> str:
 
 
 @mcp.tool()
-def set_config_value(section: str, key: str, value: str) -> str:
+def set_config_value(section: str, key: str, value: str, **kwargs) -> str:
     """Edit a specific value in hyprland.conf and reload.
     Example: set_config_value("general", "gaps_in", "10")
              set_config_value("decoration", "rounding", "16")
@@ -287,7 +287,7 @@ def set_config_value(section: str, key: str, value: str) -> str:
 
 
 @mcp.tool()
-def add_config_line(line: str, after_section: str = None) -> str:
+def add_config_line(line: str, after_section: str = None, **kwargs) -> str:
     """Append a line to hyprland.conf (or after a section) and reload.
     Example: add_config_line("bind = SUPER, W, exec, firefox")
              add_config_line('windowrulev2 = float, class:^(pavucontrol)$', after_section="windowrulev2")
@@ -318,5 +318,8 @@ def add_config_line(line: str, after_section: str = None) -> str:
 # Main
 # ------------------------------------------------------------------
 
-if __name__ == "__main__":
+def main():
     mcp.run()
+
+if __name__ == "__main__":
+    main()
