@@ -230,6 +230,7 @@ def create_hyprland_config(
     shadow_opacity: float = 0.25,
     autostart_apps: list[str] = None,
     extra_decoration: dict = None,
+    **kwargs,
 ) -> dict:
     """
     Creates a beautiful, production-ready hyprland.conf.
@@ -448,6 +449,7 @@ def create_waybar_config(
     include_temperature: bool = True,
     background_alpha: float = 0.6,
     css_extra: str = "",
+    **kwargs,
 ) -> dict:
     """
     Creates a beautiful Waybar config + style.css pair.
@@ -638,6 +640,7 @@ def generate_theme_palette(
     error: str = "#f38ba8",
     success: str = "#a6e3a1",
     warning: str = "#fab387",
+    **kwargs,
 ) -> dict:
     """Generates a cohesive color palette for Hyprland + Waybar + any related apps."""
     palette = {
@@ -681,7 +684,7 @@ def generate_theme_palette(
 
 @mcp.tool()
 @safe_tool_wrapper
-def get_config_reference(query: str) -> str:
+def get_config_reference(query: str, **kwargs) -> str:
     """
     Returns a targeted reference snippet based on a user query about Hyprland config syntax.
 
@@ -727,6 +730,7 @@ def apply_config_template(
     template_name: str,
     output_path: str,
     custom_vars: dict = None,
+    **kwargs,
 ) -> dict:
     """
     Applies a pre-built beautiful template to a target file.
@@ -767,7 +771,7 @@ def apply_config_template(
 
 @mcp.tool()
 @safe_tool_wrapper
-def get_full_beauty_guide() -> str:
+def get_full_beauty_guide(**kwargs) -> str:
     """Returns a comprehensive guide combining all resources, templates, and design principles."""
     return textwrap.dedent(f"""
 === FULL BEAUTY GUIDE FOR HYPRLAND ===
